@@ -46,7 +46,7 @@
 
     <div class="container mt-5">
         <h1>Create a New Event</h1>
-        <form method="POST" action="{% url 'event_create' %}">
+        <form method="POST" action="event_create">
             {% csrf_token %}
             <div class="form-group">
                 <label for="community">Select Community:</label>
@@ -76,8 +76,8 @@
             </div>
             <button type="submit" class="btn btn-primary">Create Event</button>
         
-            <a href="{% url 'event_list' %}" class="btn btn-secondary mt-2">Back to Events</a>
-            <a href="{% url 'index' %}" class="btn btn-secondary mt-2">Back to Home</a>
+            <a href="event_list" class="btn btn-secondary mt-2">Back to Events</a>
+            <a href="index" class="btn btn-secondary mt-2">Back to Home</a>
         </form>
     </div>
 </body>
