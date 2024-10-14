@@ -257,7 +257,7 @@ ul li:hover {
                 </ul>
 <!-- Profile Section -->
 <div class="d-flex flex-column align-items-center" style="position: absolute; right: 20px;">
-    <a href="{% url 'profile_edit' %}">
+    <a href="profile_edit">
         <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_640.jpg" alt="Profile" class="rounded-circle profile-pic">
     </a>
     <span class="mt-1">SSSS</span> <!-- Replace 'Your Name' with the actual name -->
@@ -274,12 +274,12 @@ ul li:hover {
         <div class="sidebar d-none d-md-block col-md-3">
             <h4>Quick Links</h4>
             <ul class="list-group">
-                <li class="list-group-item"><a href="{% url 'community_list' %}">View All Communities</a></li>
-                <li class="list-group-item"><a href="{% url 'event_list' %}">View All Events</a></li>
-                <li class="list-group-item"><a href="{% url 'interfaith_networking' %}">Interfaith Networking</a></li>
-                <li class="list-group-item"><a href="{% url 'about_us' %}">About Us</a></li>
-                <li class="list-group-item"><a href="{% url 'contact' %}">Contact Us</a></li>
-                <li class="list-group-item"><a href="{% url 'settings' %}">Settings</a></li>
+                <li class="list-group-item"><a href="community_list">View All Communities</a></li>
+                <li class="list-group-item"><a href="event_list">View All Events</a></li>
+                <li class="list-group-item"><a href="interfaith_networking">Interfaith Networking</a></li>
+                <li class="list-group-item"><a href="about_us">About Us</a></li>
+                <li class="list-group-item"><a href="contact">Contact Us</a></li>
+                <li class="list-group-item"><a href="settings">Settings</a></li>
                 <!-- Toggle Button -->
                 <button class="btn btn-link" id="toggleLinks">Show More Links</button>
                 <div id="additionalLinks" style="display: none;"> <!-- Hidden by default -->
@@ -321,9 +321,9 @@ ul li:hover {
     
             <!-- Quick Access Section -->
             <div class="text-center mb-4">
-                <a href="{% url 'offer_help' %}" class="btn btn-primary mx-2">Offer Help</a>
-                <a href="{% url 'request_help' %}" class="btn btn-success mx-2">Request Help</a>
-                <a href="{% url 'event_list' %}" class="btn btn-info mx-2">View Upcoming Events</a>
+                <a href="offer_help" class="btn btn-primary mx-2">Offer Help</a>
+                <a href="request_help" class="btn btn-success mx-2">Request Help</a>
+                <a href="event_list" class="btn btn-info mx-2">View Upcoming Events</a>
             </div>
     
             <!-- Recent Messages -->
@@ -345,10 +345,10 @@ ul li:hover {
                         </div>
                         <div class="card-body">
                             <ul>
-                                <li><a href="{% url 'offer_help_category_1' %}">Mental Health Support</a></li>
-                                <li><a href="{% url 'offer_help_category_2' %}">Food Assistance</a></li>
-                                <li><a href="{% url 'offer_help_category_3' %}">Shelter Services</a></li>
-                                <li><a href="{% url 'offer_help_category_4' %}">Educational Support</a></li>
+                                <li><a href="offer_help_category_1">Mental Health Support</a></li>
+                                <li><a href="offer_help_category_2'">Food Assistance</a></li>
+                                <li><a href="offer_help_category_3">Shelter Services</a></li>
+                                <li><a href="offer_help_category_4">Educational Support</a></li>
                             </ul>
                         </div>
                     </div>
@@ -361,10 +361,10 @@ ul li:hover {
                         </div>
                         <div class="card-body">
                             <ul>
-                                <li><a href="{% url 'request_help_category_1' %}">Mental Health Support</a></li>
-                                <li><a href="{% url 'request_help_category_2' %}">Food Assistance</a></li>
-                                <li><a href="{% url 'request_help_category_3' %}">Shelter Services</a></li>
-                                <li><a href="{% url 'request_help_category_4' %}">Educational Support</a></li>
+                                <li><a href="request_help_category_1">Mental Health Support</a></li>
+                                <li><a href="request_help_category_2">Food Assistance</a></li>
+                                <li><a href="request_help_category_3">Shelter Services</a></li>
+                                <li><a href="request_help_category_4">Educational Support</a></li>
                             </ul>
                         </div>
                     </div>
@@ -382,14 +382,14 @@ ul li:hover {
             <div class="text-center mb-4">
                 <h4>Join the Discussion</h4>
                 <p>Participate in discussions and share your thoughts.</p>
-                <a href="{% url 'discussion_forums' %}" class="btn btn-danger">Go to Forums</a>
+                <a href="discussion_forums" class="btn btn-danger">Go to Forums</a>
             </div>
     
             <!-- Profile Customization -->
             <div class="text-center mb-4">
                 <h4>Customize Your Profile</h4>
                 <p>Update your profile and view your volunteer history.</p>
-                <a href="{% url 'profile_edit' %}" class="btn btn-light">Edit Profile</a>
+                <a href="profile_edit" class="btn btn-light">Edit Profile</a>
             </div>
         </div>
     
