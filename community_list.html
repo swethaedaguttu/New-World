@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Communities - Community Connect</title>
+    <title>Communities - Interfaith Connect</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
@@ -68,15 +68,15 @@
         <ul class="list-group" id="communityList">
             {% for community in communities %}
                 <li class="list-group-item">
-                    <a href="{% url 'community_details' community.id %}">{{ community.name }}</a>
+                    <a href="community_details">{{ community.name }}</a>
                 </li>
             {% empty %}
                 <li class="list-group-item">No communities available.</li>
             {% endfor %}
         </ul>
 
-        <a href="{% url 'community_create' %}" class="btn btn-primary mt-3">Create New Community</a>
-        <a href="{% url 'index' %}" class="btn btn-secondary mt-2">Back to Home</a>
+        <a href="community_create" class="btn btn-primary mt-3">Create New Community</a>
+        <a href="index" class="btn btn-secondary mt-2">Back to Home</a>
     </div>
 
     <script>
