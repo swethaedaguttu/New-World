@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Events - Community Connect</title>
+    <title>Events - Interfaith Connect</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
@@ -63,13 +63,13 @@
         <ul class="list-group">
             {% for event in events %}
                 <li class="list-group-item">
-                    <a href="{% url 'event_details' event.id %}">{{ event.title }}</a> 
+                    <a href="event_details/ event.id">{{ event.title }}</a> 
                     <span>{{ event.date }}</span>
                 </li>
             {% endfor %}
         </ul>
-        <a href="{% url 'event_create' %}" class="btn btn-primary mt-3">Create New Event</a>
-        <a href="{% url 'index' %}" class="btn btn-secondary mt-2">Back to Home</a>
+        <a href="event_create" class="btn btn-primary mt-3">Create New Event</a>
+        <a href="index" class="btn btn-secondary mt-2">Back to Home</a>
     </div>
 </body>
 </html>
