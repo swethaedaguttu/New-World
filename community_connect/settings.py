@@ -1,16 +1,22 @@
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Load environment variables from a .env file (recommended for sensitive data)
+load_dotenv()
 
 # Base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Secret key (keep it secret in production)
-SECRET_KEY = 'django-insecure-djcw^76tgoo9l_r1zbqi0s*g!31q!lgi-h=nrwwinh37$i@cpi'
+# Secret key (use environment variable for production)
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-djcw^76tgoo9l_r1zbqi0s*g!31q!lgi-h=nrwwinh37$i@cpi')
 
-DEBUG = True # Set to 'False' in production
+# Debug setting (use False in production)
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
-# Allowed hosts - allows all hosts if DEBUG is True, otherwise, limit to production hosts
-ALLOWED_HOSTS = ['ad46-2409-40f0-1146-8752-e885-f9b-421f-2e3b.ngrok-free.app']
+# Allowed hosts (set in environment variable for production)
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
+
 # Installed apps
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -19,8 +25,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'events',
-    'channels',
+    'events',  # Your custom app
+    'channels',  # For WebSocket support (Channels)
     'django.contrib.sites',
     'allauth',
     'allauth.account',
@@ -34,9 +40,10 @@ INSTALLED_APPS = [
 # Site ID for django.contrib.sites
 SITE_ID = 1
 
-# Middleware settings
+# Middleware settings (including security best practices for production)
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Serve static files efficiently in production
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -45,10 +52,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_otp.middleware.OTPMiddleware',
     'allauth.account.middleware.AccountMiddleware',
-]
-
-CSRF_TRUSTED_ORIGINS = [
-    'https://ad46-2409-40f0-1146-8752-e885-f9b-421f-2e3b.ngrok-free.app',
 ]
 
 # URL configuration
@@ -74,26 +77,28 @@ TEMPLATES = [
 # WSGI application
 WSGI_APPLICATION = 'community_connect.wsgi.application'
 
-# ASGI application (if using Channels)
+# ASGI application (for Channels/WebSockets)
 ASGI_APPLICATION = 'community_connect.asgi.application'
 
-# Channel layers configuration
+# Channels configuration (using Redis in production)
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer',  # Use Redis in production
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [(os.getenv('REDIS_HOST', '127.0.0.1'), 6379)],
+        },
     },
 }
 
-# Database configuration
+# Database configuration (use PostgreSQL for production)
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',  # Change to 'django.db.backends.postgresql' for production
-        'NAME': BASE_DIR / 'db.sqlite3',  # Use environment variables for production databases
-        # If using PostgreSQL, uncomment and use these:
-        # 'USER': os.environ.get('DB_USER'),
-        # 'PASSWORD': os.environ.get('DB_PASSWORD'),
-        # 'HOST': os.environ.get('DB_HOST'),
-        # 'PORT': os.environ.get('DB_PORT'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DB_NAME', 'mydatabase'),
+        'USER': os.getenv('DB_USER', 'myuser'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'mypassword'),
+        'HOST': os.getenv('DB_HOST', 'localhost'),
+        'PORT': os.getenv('DB_PORT', '5432'),
     }
 }
 
@@ -119,12 +124,15 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static files settings
+# Static files settings (use WhiteNoise for efficient static file serving in production)
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'events', 'static'),
 ]
+
+# WhiteNoise configuration for serving static files in production
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files settings
 MEDIA_URL = '/media/'
@@ -143,7 +151,25 @@ LOGIN_REDIRECT_URL = '/'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 
-# Logging configuration
+# Security settings for production
+SECURE_HSTS_SECONDS = 31536000  # Enable HTTP Strict Transport Security (HSTS)
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_SSL_REDIRECT = os.getenv('SECURE_SSL_REDIRECT', 'True') == 'True'
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+# Email backend (configure for production)
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.example.com')
+EMAIL_PORT = os.getenv('EMAIL_PORT', 587)
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'your-email@example.com')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', 'your-email-password')
+
+# Logging configuration (keep logs outside public directories)
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -161,7 +187,7 @@ LOGGING = {
         'file': {
             'level': 'ERROR',
             'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'error.log'),
+            'filename': os.path.join(BASE_DIR, 'logs', 'error.log'),
             'formatter': 'verbose',
         },
     },
