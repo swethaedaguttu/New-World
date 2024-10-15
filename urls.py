@@ -1,10 +1,11 @@
 from django.urls import path
+from events import views  # Import views from the events app
+
 from .views import (
     index,  # Changed 'home' to 'index'
     register,
     user_login,
     user_logout,
-    community_list_view,
     community_details_view,
     community_create_view,
     event_list_view,
@@ -47,7 +48,7 @@ urlpatterns = [
     path('register/', register, name='register'),
     path('login/', CustomLoginView.as_view(), name='login'),  # Keep the login path here
     path('logout/', user_logout, name='logout'),
-    path('communities/', community_list_view, name='community_list'),
+    path('community_list/', views.community_list, name='community_list'),  # Communities page
     path('communities/<int:community_id>/', community_details_view, name='community_details'),
     path('communities/create/', community_create_view, name='community_create'),
     path('create-community/', create_community_profile, name='community_form'),
