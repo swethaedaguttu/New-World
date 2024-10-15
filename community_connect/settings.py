@@ -1,21 +1,17 @@
 import os
 from pathlib import Path
-from dotenv import load_dotenv
-
-# Load environment variables from a .env file (recommended for sensitive data)
-load_dotenv()
 
 # Base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Secret key (use environment variable for production)
-SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-djcw^76tgoo9l_r1zbqi0s*g!31q!lgi-h=nrwwinh37$i@cpi')
+# Secret key (get from environment variables for security in production)
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-djcw^76tgoo9l_r1zbqi0s*g!31q!lgi-h=nrwwinh37$i@cpi')
 
-# Debug setting (use False in production)
-DEBUG = os.getenv('DEBUG', 'True') == 'True'
+# Debug setting
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'  # Set to False in production
 
-# Allowed hosts (set in environment variable for production)
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
+# Allowed hosts
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
 
 # Installed apps
 INSTALLED_APPS = [
@@ -25,8 +21,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'events',  # Your custom app
-    'channels',  # For WebSocket support (Channels)
+    'events',
+    'channels',
     'django.contrib.sites',
     'allauth',
     'allauth.account',
@@ -37,13 +33,12 @@ INSTALLED_APPS = [
     'django_otp.plugins.otp_totp',
 ]
 
-# Site ID for django.contrib.sites
+# Site ID
 SITE_ID = 1
 
-# Middleware settings (including security best practices for production)
+# Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # Serve static files efficiently in production
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -57,7 +52,7 @@ MIDDLEWARE = [
 # URL configuration
 ROOT_URLCONF = 'community_connect.urls'
 
-# Templates configuration
+# Templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -77,28 +72,25 @@ TEMPLATES = [
 # WSGI application
 WSGI_APPLICATION = 'community_connect.wsgi.application'
 
-# ASGI application (for Channels/WebSockets)
+# ASGI application (if using Channels)
 ASGI_APPLICATION = 'community_connect.asgi.application'
 
-# Channels configuration (using Redis in production)
+# Channel layers
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            'hosts': [(os.getenv('REDIS_HOST', '127.0.0.1'), 6379)],
-        },
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',  # Use Redis in production
     },
 }
 
-# Database configuration (use PostgreSQL for production)
+# Database configuration for production
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME', 'mydatabase'),
-        'USER': os.getenv('DB_USER', 'myuser'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'mypassword'),
-        'HOST': os.getenv('DB_HOST', 'localhost'),
-        'PORT': os.getenv('DB_PORT', '5432'),
+        'NAME': os.environ.get('DB_NAME', ''),
+        'USER': os.environ.get('DB_USER', ''),
+        'PASSWORD': os.environ.get('DB_PASSWORD', ''),
+        'HOST': os.environ.get('DB_HOST', ''),
+        'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }
 
@@ -118,30 +110,27 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Localization settings
+# Localization
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static files settings (use WhiteNoise for efficient static file serving in production)
+# Static files
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'events', 'static'),
 ]
 
-# WhiteNoise configuration for serving static files in production
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-# Media files settings
+# Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Authentication settings
+# Authentication
 LOGIN_URL = '/login/'
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
@@ -151,25 +140,15 @@ LOGIN_REDIRECT_URL = '/'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 
-# Security settings for production
-SECURE_HSTS_SECONDS = 31536000  # Enable HTTP Strict Transport Security (HSTS)
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_SSL_REDIRECT = os.getenv('SECURE_SSL_REDIRECT', 'True') == 'True'
-SECURE_BROWSER_XSS_FILTER = True
-SECURE_CONTENT_TYPE_NOSNIFF = True
-X_FRAME_OPTIONS = 'DENY'
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
-
-# Email backend (configure for production)
+# Email configuration for production
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.example.com')
-EMAIL_PORT = os.getenv('EMAIL_PORT', 587)
+EMAIL_HOST = os.environ.get('EMAIL_HOST', '')
+EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'your-email@example.com')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', 'your-email-password')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
 
-# Logging configuration (keep logs outside public directories)
+# Logging configuration
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -187,7 +166,7 @@ LOGGING = {
         'file': {
             'level': 'ERROR',
             'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'logs', 'error.log'),
+            'filename': os.path.join(BASE_DIR, 'error.log'),
             'formatter': 'verbose',
         },
     },
