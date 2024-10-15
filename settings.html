@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settings | Community Connect</title>
+    <title>Settings | Interfaith Connect</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         /* General body styles */
@@ -67,23 +67,23 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'index' %}">InterfaithConnect</a>
+            <a class="navbar-brand" href="index">InterfaithConnect</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'community_list' %}">Communities</a>
+                        <a class="nav-link" href="community_list">Communities</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'event_list' %}">Events</a>
+                        <a class="nav-link" href="event_list">Events</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'settings' %}">Settings</a>
+                        <a class="nav-link" href="settings">Settings</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                        <a class="nav-link" href="logout">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -94,7 +94,7 @@
         <h1 class="text-center">Account Settings</h1>
 
         <!-- Profile Update Form -->
-        <form id="settings-form" method="POST" action="{% url 'settings' %}">
+        <form id="settings-form" method="POST" action="settings">
             {% csrf_token %}
         
             <div class="form-group">
@@ -223,7 +223,7 @@
         <!-- Delete Account Section -->
         <h2 class="mt-4">Delete Account</h2>
         <p class="text-danger">Warning: This action is irreversible. If you wish to permanently delete your account, please click the button below.</p>
-        <form method="POST" action="{% url 'settings' %}" onsubmit="return confirmDelete();">
+        <form method="POST" action="settings" onsubmit="return confirmDelete();">
         {% csrf_token %}
         <button type="submit" class="btn btn-danger">Delete My Account</button>
         </form>
